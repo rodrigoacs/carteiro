@@ -17,3 +17,7 @@ function createWindow() {
 }
 
 app.whenReady().then(createWindow);
+
+try {
+  require('electron-reloader')(module)
+} catch (_) {}

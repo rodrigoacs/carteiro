@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carteiro - API Tester</title>
+    <!-- Include Tailwind CSS from CDN -->
+    <link rel="stylesheet" href="./src/output.css" />
+  </head>
+  <body class="bg-neutral-900 p-5">
+    <h1 class="text-neutral-50 text-2xl font-bold mb-4 text-center">Faça sua requisição</h1>
+
+    <div class="flex">
+      <select id="method" class="mb-4 block p-2 border border-gray-300 rounded-md flex-auto">
+        <option value="GET">GET</option>
+        <option value="POST">POST</option>
+        <option value="PUT">PUT</option>
+        <option value="DELETE">DELETE</option>
+        <option value="PATCH">PATCH</option>
+      </select>
+
+      <input
+        type="text"
+        id="url"
+        placeholder="URL"
+        value="https://jsonplaceholder.typicode.com/todos/1"
+        class="mb-4 block w-full p-2 border border-gray-300 rounded-md flex-auto"
+      />
+
+      <button
+        id="sendRequest"
+        class="mb-4 bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md flex-auto"
+      >
+        Enviar
+      </button>
+    </div>
+
+    <p
+      id="requestStatus"
+      class="text-neutral-50 p-3 bg-transparent border border-gray-300 rounded-md w-full"
+    ></p>
+
+    <p
+      id="response"
+      class="text-neutral-50 p-3 bg-transparent border border-gray-300 rounded-md w-full"
+    ></p>
+
+    <div class="mb-4">
+      <label for="authType" class="block mb-2 text-neutral-50">Tipo de Autenticação:</label>
+      <select id="authType" class="block w-full p-2 border border-gray-300 rounded-md">
+        <option value="none">Nenhum</option>
+        <option value="basic">Basic Auth</option>
+      </select>
+    </div>
+
+    <div id="basicAuthContainer" class="mb-4" style="display: none">
+      <label for="username" class="block mb-2">Username: </label>
+      <input
+        type="text"
+        id="username"
+        placeholder="Username"
+        class="mb-4 block w-full p-2 border border-gray-300 rounded-md"
+      />
+      <label for="password" class="block mb-2">Password: </label>
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        class="mb-4 block w-full p-2 border border-gray-300 rounded-md"
+      />
+    </div>
+
+    <div id="bodyContainer" class="mb-4" style="display: none">
+      <label for="body" class="block mb-2">Corpo da Requisição (JSON):</label>
+      <textarea
+        id="body"
+        placeholder="Corpo da Requisição (JSON)"
+        class="block w-full p-2 border border-gray-300 rounded-md"
+      ></textarea>
+    </div>
+
+    <div id="customHeaders" class="mb-4"></div>
+
+    <button
+      id="addHeader"
+      class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Adicionar Cabeçalho
+    </button>
+
+    <script src="renderer.js"></script>
+    <script>
+      document.getElementById('authType').addEventListener('change', function () {
+        const authType = this.value
+        const basicAuthContainer = document.getElementById('basicAuthContainer')
+        basicAuthContainer.style.display = authType === 'basic' ? '' : 'none'
+      })
+
+      document.getElementById('method').addEventListener('change', function () {
+        const method = this.value
+        const bodyContainer = document.getElementById('bodyContainer')
+        if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+          bodyContainer.style.display = ''
+        } else {
+          bodyContainer.style.display = 'none'
+        }
+      })
+
+      document.getElementById('addHeader').addEventListener('click', function () {
+        const customHeaders = document.getElementById('customHeaders')
+        const newHeaderPair = document.createElement('div')
+        newHeaderPair.innerHTML = `
+      <input type="text" placeholder="Chave" class="headerKey mb-2 block w-full p-2 border border-gray-300 rounded-md">
+      <input type="text" placeholder="Valor" class="headerValue mb-2 block w-full p-2 border border-gray-300 rounded-md">
+      <button class="removeHeader bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mb-4">Remover</button>
+    `
+        customHeaders.appendChild(newHeaderPair)
+
+        newHeaderPair.querySelector('.removeHeader').addEventListener('click', function () {
+          newHeaderPair.remove()
+        })
+      })
+    </script>
+  </body>
+</html>

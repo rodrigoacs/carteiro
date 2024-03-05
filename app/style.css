@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  transition: all .2s;
+}
+
+.light {
+  --color-primary: #fff;
+  --color-black: #f2f2f2;
+  --color-hover: #e8e8e8;
+  --color-text-primary: #000;
+  --color-text-secondary: #333;
+  --color-text-unfocused: #666;
+  --color-text-highlight: #007acc;
+}
+
+.dark {
+  --color-primary: #101010;
+  --color-black: #000;
+  --color-hover: #181818;
+  --color-text-primary: #fff;
+  --color-text-secondary: #d4d4d4;
+  --color-text-unfocused: #737373;
+  --color-text-highlight: #5df80f;
+}
