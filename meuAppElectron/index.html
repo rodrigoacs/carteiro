@@ -9,10 +9,11 @@
   <select id="method">
     <option value="GET">GET</option>
     <option value="POST">POST</option>
-    <!-- Adicione mais métodos conforme necessário -->
-  </select>
+    <option value="PUT">PUT</option>
+    <option value="DELETE">DELETE</option>
+    <option value="PATCH">PATCH</option>
+  </select>  
   
-  <!-- Campo para o corpo da requisição, escondido por padrão -->
   <div id="bodyContainer" style="display: none;">
     <textarea id="body" placeholder="Corpo da Requisição (JSON)"></textarea>
   </div>
@@ -22,14 +23,15 @@
 
   <script>
     document.getElementById('method').addEventListener('change', function() {
-      const method = this.value;
-      const bodyContainer = document.getElementById('bodyContainer');
-      if (method === 'POST') {
-        bodyContainer.style.display = '';
-      } else {
-        bodyContainer.style.display = 'none';
-      }
-    });
+  const method = this.value;
+  const bodyContainer = document.getElementById('bodyContainer');
+  if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(method)) {
+    bodyContainer.style.display = '';
+  } else {
+    bodyContainer.style.display = 'none';
+  }
+});
+
   </script>
 
   <script src="renderer.js"></script>
