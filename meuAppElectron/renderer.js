@@ -1,9 +1,17 @@
 document.getElementById('sendRequest').addEventListener('click', async () => {
   const url = document.getElementById('url').value;
   const method = document.getElementById('method').value;
+  const authType = document.getElementById('authType').value; 
+  let headers = {};
+  document.querySelectorAll('.headerPair').forEach(headerPair => {
+    const key = headerPair.querySelector('.headerKey').value;
+    const value = headerPair.querySelector('.headerValue').value;
+    if (key) headers[key] = value;
+  });
+
   let body = method === 'POST' ? document.getElementById('body').value : null;
   let parsedBody = null;
-
+  
   if (body) {
     try {
       parsedBody = JSON.parse(body);
@@ -14,8 +22,15 @@ document.getElementById('sendRequest').addEventListener('click', async () => {
     }
   }
 
+  if (authType === 'basic') {
+    const username = document.getElementById('username').value; 
+    const password = document.getElementById('password').value;
+    const token = btoa(`${username}:${password}`); 
+    headers['Authorization'] = `Basic ${token}`;
+  }
+
   try {
-    const result = await window.api.makeRequest({ url, method, data: parsedBody });
+    const result = await window.api.makeRequest({ url, method, data: parsedBody, headers });
     let message = `Status: ${result.status}\nTempo de Resposta: ${result.time}ms\n\n`;
     if (result.error) {
       message += `Erro: ${JSON.stringify(result.data, null, 2)}`;
