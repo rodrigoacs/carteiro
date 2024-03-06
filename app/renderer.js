@@ -1,4 +1,6 @@
-document.getElementById('sendRequest').addEventListener('click', async () => {
+document.getElementById('sendRequest').addEventListener('click', async e => {
+  e.target.disabled = true
+
   const url = document.getElementById('url').value
   const method = document.getElementById('method').value
   const authType = document.getElementById('authType').value
@@ -40,8 +42,10 @@ document.getElementById('sendRequest').addEventListener('click', async () => {
     }
     document.getElementById('response').textContent = requestResponse
     document.getElementById('requestStatus').textContent = requestStatus
+    e.target.disabled = false
   } catch (error) {
     console.error('Falha na requisição:', error)
     document.getElementById('response').textContent = 'Falha na requisição: ' + error.message
+    e.target.disabled = false
   }
 })
